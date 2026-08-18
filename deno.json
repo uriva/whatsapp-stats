@@ -1,7 +1,14 @@
 {
   "nodeModulesDir": "auto",
+  "tasks": {
+    "build": "npm run build",
+    "start": "deno run --allow-net --allow-read main.ts"
+  },
   "deploy": {
     "org": "uriva",
-    "app": "whatsapp-stats"
+    "app": "whatsapp-analytics",
+    "entrypoint": "main.ts"
   }
 }
+
+

@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useEffect, useState, use } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { 
   Sparkles, 
   Share2, 
@@ -12,11 +13,9 @@ import {
   Smile, 
   Zap, 
   ShieldCheck, 
-  FolderArchive,
   ArrowLeft,
   Copy,
   Check,
-  Send,
   Loader2,
   AlertCircle
 } from 'lucide-react';
@@ -34,21 +33,28 @@ import { WordsEmojisSection } from '@/components/WordsEmojisSection';
 import { ThreadExplorer } from '@/components/ThreadExplorer';
 import { WrappedModal } from '@/components/WrappedModal';
 
-interface InvitePageProps {
-  params: Promise<{ code: string }>;
-}
+function InviteContent() {
+  const searchParams = useSearchParams();
+  const [code, setCode] = useState<string>('');
 
-export default function InvitePage({ params }: InvitePageProps) {
-  const resolvedParams = use(params);
-  const code = resolvedParams.code;
+  useEffect(() => {
+    // Check search param 'code' or extract from pathname
+    const paramCode = searchParams.get('code') || searchParams.get('invite') || searchParams.get('snapshot');
+    if (paramCode) {
+      setCode(paramCode);
+    } else if (typeof window !== 'undefined') {
+      const parts = window.location.pathname.split('/').filter(Boolean);
+      if (parts.length > 1) {
+        setCode(parts[parts.length - 1]);
+      }
+    }
+  }, [searchParams]);
 
   const [activeTab, setActiveTab] = useState<
     'overview' | 'responses' | 'initiations' | 'media' | 'heatmaps' | 'words' | 'threads'
   >('overview');
   const [showWrapped, setShowWrapped] = useState(false);
   const [copied, setCopied] = useState(false);
-  const [reactionAuthor, setReactionAuthor] = useState('');
-  const [selectedEmoji, setSelectedEmoji] = useState<string | null>(null);
 
   // Auto guest login
   useEffect(() => {
@@ -56,11 +62,11 @@ export default function InvitePage({ params }: InvitePageProps) {
   }, []);
 
   // Query snapshot from InstantDB
-  const { data, isLoading, error } = db.useQuery({
+  const { data, isLoading } = db.useQuery({
     snapshots: {
       $: {
         where: {
-          shareCode: code,
+          shareCode: code || '__none__',
         },
       },
       reactions: {
@@ -109,13 +115,12 @@ export default function InvitePage({ params }: InvitePageProps) {
   const handleSendReaction = async (emoji: string) => {
     if (!snapshot) return;
     try {
-      setSelectedEmoji(emoji);
       const reactionId = id();
       await db.transact(
         db.tx.reactions[reactionId]
           .create({
             emoji,
-            authorName: reactionAuthor.trim() || 'Guest Friend',
+            authorName: 'Guest Friend',
             createdAt: Date.now(),
           })
           .link({ snapshot: snapshot.id })
@@ -132,7 +137,7 @@ export default function InvitePage({ params }: InvitePageProps) {
     }
   };
 
-  if (isLoading) {
+  if (isLoading || (!code && typeof window !== 'undefined' && window.location.search)) {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center bg-[#080C14] text-white">
         <Loader2 className="h-10 w-10 animate-spin text-emerald-400" />
@@ -153,7 +158,7 @@ export default function InvitePage({ params }: InvitePageProps) {
           </div>
           <h2 className="mt-4 text-xl font-bold">Invite Link Not Found</h2>
           <p className="mt-2 text-xs text-slate-400 leading-relaxed">
-            This chat snapshot invite might have been deleted or the link is incomplete.
+            This chat snapshot invite might have been deleted or the code is missing.
           </p>
           <div className="mt-6 flex justify-center">
             <Link
@@ -362,5 +367,19 @@ export default function InvitePage({ params }: InvitePageProps) {
         />
       )}
     </div>
+  );
+}
+
+export default function InvitePage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex min-h-screen flex-col items-center justify-center bg-[#080C14] text-white">
+          <Loader2 className="h-10 w-10 animate-spin text-emerald-400" />
+        </div>
+      }
+    >
+      <InviteContent />
+    </Suspense>
   );
 }

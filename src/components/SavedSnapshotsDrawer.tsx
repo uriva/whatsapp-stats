@@ -52,7 +52,7 @@ export function SavedSnapshotsDrawer({
   const snapshots = data?.snapshots || [];
 
   const handleCopy = (code: string) => {
-    const url = `${window.location.origin}/invite/${code}`;
+    const url = `${window.location.origin}/invite?code=${code}`;
     navigator.clipboard.writeText(url);
     setCopiedCode(code);
     setTimeout(() => setCopiedCode(null), 2500);

@@ -43,7 +43,7 @@ export function SaveSnapshotModal({ isOpen, onClose, analysis, onSaved }: SaveSn
   if (!isOpen) return null;
 
   const inviteUrl = shareCode && typeof window !== 'undefined'
-    ? `${window.location.origin}/invite/${shareCode}`
+    ? `${window.location.origin}/invite?code=${shareCode}`
     : '';
 
   const handleSave = async (e: React.FormEvent) => {
@@ -73,7 +73,7 @@ export function SaveSnapshotModal({ isOpen, onClose, analysis, onSaved }: SaveSn
       setShareCode(newCode);
 
       // Generate QR Code
-      const url = `${window.location.origin}/invite/${newCode}`;
+      const url = `${window.location.origin}/invite?code=${newCode}`;
       const qrData = await QRCode.toDataURL(url, {
         width: 240,
         margin: 1,
