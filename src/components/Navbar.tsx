@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { MessageSquare, ShieldCheck, Sparkles, UploadCloud, RefreshCw } from 'lucide-react';
+import { MessageSquare, Database, Sparkles, UploadCloud, RefreshCw } from 'lucide-react';
 
 interface NavbarProps {
   hasData: boolean;
@@ -32,10 +32,10 @@ export function Navbar({ hasData, onReset, onOpenWrapped }: NavbarProps) {
           </div>
         </div>
 
-        {/* Center: Privacy Assurance */}
+        {/* Center: InstantDB Sync Badge */}
         <div className="hidden items-center gap-2 rounded-full border border-slate-800 bg-slate-900/80 px-3 py-1.5 text-xs text-slate-300 md:flex">
-          <ShieldCheck className="h-4 w-4 text-emerald-400" />
-          <span>100% Private & Client-Side: Your chats never leave your browser</span>
+          <Database className="h-4 w-4 text-emerald-400" />
+          <span>InstantDB Realtime Storage: Save Snapshots &amp; Share Invite Links</span>
         </div>
 
         {/* Right actions */}

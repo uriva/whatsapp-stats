@@ -9,7 +9,7 @@ import {
   HelpCircle, 
   Clipboard, 
   SlidersHorizontal, 
-  ShieldCheck,
+  Database,
   Check,
   ArrowRight,
   Flame
@@ -177,10 +177,10 @@ export function UploadDropzone({
             </button>
           </div>
 
-          {/* Privacy badge */}
-          <div className="mt-8 flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/5 px-3 py-1 text-xs text-emerald-400">
-            <ShieldCheck className="h-3.5 w-3.5" />
-            <span>Zero server uploads — 100% processed locally in your browser</span>
+          {/* InstantDB Storage & Invite Badge */}
+          <div className="mt-8 flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/5 px-3.5 py-1.5 text-xs text-emerald-400">
+            <Database className="h-3.5 w-3.5" />
+            <span>InstantDB Cloud Sync — Save snapshots &amp; share invite links instantly</span>
           </div>
         </div>
       </div>

@@ -234,7 +234,7 @@ export function WrappedModal({ isOpen, onClose, analysis }: WrappedModalProps) {
           {/* Footer watermark */}
           <div className="mt-6 flex items-center justify-between border-t border-slate-800/80 pt-3 text-[10px] text-slate-500">
             <span>WhatsStats Pro Analytics</span>
-            <span>100% Private Client-Side</span>
+            <span>InstantDB Realtime Synced</span>
           </div>
         </div>
       </div>
