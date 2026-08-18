@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: whatsapp-stats
+    runtime: node
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NEXT_PUBLIC_INSTANT_APP_ID
+        value: f8c4ea32-9cd1-4ba1-a878-5512ec3d062c
+      - key: INSTANT_APP_ADMIN_TOKEN
+        sync: false
