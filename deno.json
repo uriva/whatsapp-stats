@@ -2,12 +2,8 @@
   "nodeModulesDir": "auto",
   "tasks": {
     "build": "npm run build",
+    "deploy": "npm run build && npx wrangler deploy",
     "start": "deno run --allow-net --allow-read main.ts"
-  },
-  "deploy": {
-    "org": "uriva",
-    "app": "whatsapp-analytics",
-    "entrypoint": "main.ts"
   }
 }
 

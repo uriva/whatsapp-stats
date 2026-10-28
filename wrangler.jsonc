@@ -1,0 +1,19 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "whatsapp-analytics",
+  "main": "worker.js",
+  "compatibility_date": "2026-04-01",
+  "assets": {
+    "directory": "./out",
+    "binding": "ASSETS"
+  },
+  "routes": [
+    {
+      "pattern": "whatsapp-stats.uriv.me",
+      "custom_domain": true
+    }
+  ],
+  "observability": {
+    "enabled": true
+  }
+}
