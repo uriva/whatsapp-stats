@@ -6,6 +6,8 @@ export const APP_ID = process.env.NEXT_PUBLIC_INSTANT_APP_ID || "f8c4ea32-9cd1-4
 export const db = init({
   appId: APP_ID,
   schema,
+  apiURI: process.env.NEXT_PUBLIC_INSTANT_API_URI || "https://api.instantdb.uriv.me",
+  websocketURI: process.env.NEXT_PUBLIC_INSTANT_WEBSOCKET_URI || "wss://api.instantdb.uriv.me/runtime/session",
 });
 
 export type Snapshot = InstaQLEntity<AppSchema, "snapshots">;
